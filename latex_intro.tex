@@ -1,0 +1,143 @@
+% En LaTeXfil slutter med .tex
+% Kommentarer begynner med %.
+
+% Delen før \begin{document} heter "preamble". Her setter du innstillinger som
+% gjelder for hele dokumentet og angir hvilke pakker du bruker.
+% Pakker importeres med \usepackage{}. Hver pakke har sin egen dokumentasjon som
+% du kan søke opp på https://www.ctan.org
+
+\documentclass[a4paper, 12pt, norsk]{article}
+% En side har størrelse A4, normal tekststørrelse er 12pt, språk er bokmål (se
+% \usepackage{babel} under). ‘article’ er bra for de fleste korte dokumenter,
+% som f.eks. oppgavebesvarelser.
+% Se https://en.wikibooks.org/wiki/LaTeX/Document_Structure#Preamble for detaljer
+% om innstillingene.
+
+\usepackage[utf8]{inputenc}
+% Bruk UTF8 enkoding. Du kan lese mer om tekstenkoding og hvorfor det er viktig her:
+% https://www.w3.org/International/questions/qa-what-is-encoding
+
+\usepackage[norsk]{babel}
+% Bruk ‘norsk’ for å skrive bokmål, ‘nynorsk’ for å skrive nynorsk.
+
+\usepackage{physics} % enklere kommandoer for å skrive bl.a. vektorer, deriverte,
+% matriser og notasjon ofte brukt i fysikk.
+
+\usepackage{siunitx} % kommandoer for SI-enheter.
+
+\usepackage{listings}
+% Denne pakken lar deg inkludere kode i dokumentet.
+
+\usepackage{cleveref} % smartere henvisninger enn den innebygde kommandoen \ref.
+
+% Innstillinger for teksten, hvis du vil ha noe annet enn standardinstillingene:
+\setlength{\parindent}{1em} % innrykk på begynnelsen av avsnitt. 1em er bredden til M.
+\setlength{\parskip}{1ex} % ekstra avstand mellom avsnitt. 1ex er høyden til x.
+\linespread{1} % linjeavstand
+
+% Endre hvordan seksjonsnummer skrives:
+\renewcommand{\thesection}{\Roman{section}}
+\renewcommand{\thesubsection}{\Roman{section}--\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\alph{subsection})}
+
+
+\title{Introduksjon til \LaTeX} % tittel
+\author{Johannes Sørby Heines} % forfatter
+
+% Dette er slutten på preamble. Hvis du vil bruke samme preamble i flere dokumenter
+% kan du lagre den i en egen min_preamble.tex fil, og så skrive \input{min_preamble.tex}
+% før \begin{document}. Kommandoen \input{} gjør at LaTeX tolker innholdet i inputfilen 
+% som om du hadde skrevet det rett inn i hovedfilen.
+
+\begin{document}
+
+\maketitle  % Setter opp tittel, forfatter og dato.
+
+\begin{abstract} % Sammendrag som dette er nødvendig for vitenskapelige rapporter og artikler.
+	Dette dokumentet er laget for å gi en innføring i \LaTeX, med nok informasjon til å skrive
+	det som forventes av oppgavebesvarelser og rapporter i løpet av bachelorstudiet.
+	Jeg forsøker å gi en forståelse av prinsippene i \LaTeX som vil gjøre det lettere å lete
+	seg fram til mer informasjon der det trengs.
+	Forslag til forbedringer mottas med takk på \href{github}. Der ligger også den nyeste
+	versjonen av dette dokumentet.
+\end{abstract}
+
+\section{Dette er en overskrift.}
+Hvis du bruker \lstinline[language=tex, basicstyle=\ttfamily]$\documentclass[...]{report}$
+har du også kapitler, som kommer før overskrifter.
+
+\subsection{Dette er en underoverskrift.}
+Teksten ser lik ut uavhengig av hvor mange overskriftnivåer du har.
+
+\subsubsection{Dette er en underunderoverskrift.}
+Hvis du trenger tre overskriftnivåer bør du tenke deg om. Blir teksten klarere
+om den omstruktureres?
+brukes ikke innrykk.
+
+Som du ser over kommer det ikke innrykk på første avsnitt etter en overskrift, innrykket
+kommer derimot når et avsnitt følger et annet.
+
+\section{Nummerering}
+
+\lstset{language=tex, basicstyle=\ttfamily} % Setter listings instillinger for av vise LaTeX-kode.
+
+\subsection{Overskrifter}
+
+Du kan fritt endre hvordan overskrifter nummereres ved å redefinere kommandoene
+\lstinline$\thesection$, \lstinline$\thesubsection$, og \lstinline$\thesubsubsection$.
+Prøv deg fram og finn hva som passer best.
+
+\subsection*{Overskrift uten nummer}
+Du kan også lage en overskrift uten nummer ved å sette en * mellom kommandoen og \{\}, slik:
+\lstinline$\subsection*{Overskrift uten nummer}$.
+Nest overskrift vil fortsette fra den forrige nummererte overslriften, som dette:
+
+\subsection{Henvisninger}\label{ov:henvisninger}
+Det kan ofte være hensiktsmessig å vise til en bestemt seksjon i teksten. Hvis du skriver
+f.eks. ``Se avsnitt II--2'', men så bestemmer deg for å flytte denne delen eller legge til
+en annen del før, må du endre alle henvisninger manuelt.
+For å slippe det kan du sette merker på overskrifter med kommandoen \lstinline$\label{}$
+ og henvise til den med \lstinline$\ref{}$ eller \lstinline$\cref{}$. Den første er
+innebygd i \LaTeX og gjør ikke annet enn å gi deg nummeret: \ref{ov:henvisninger}.
+Den andre ligger i pakken cleveref og vet også hva du refererer til: \cref{ov:henvisninger}.
+
+
+\section{Matematikk}
+
+En av hovedgrunnene til å bruke \LaTeX~er å skrive matematikk. Det finner flere måter å
+gjøre dette på, som passer til forskjellige formål.
+
+Når matematikken skal være integrert i teksten -- såkalt ``inline'' -- skrives den mellom
+\lstinline{\( \)}. For eksempel \(r\exp(\theta i) = r\cos(\theta) + ir\sin(\theta)\). For
+uttrykk som krever litt mer plass brukes \lstinline{\[ \]} -- kalt ``display'', for eksempel
+\[
+	f(x) \approx \sum_{n=0}^{\infty} \frac{(x-a)^n}{n!}\dv[n]{f}{x}\qty(a) .
+\]
+Husk at også likninger som skrives på denne måten skal kunne leses som en del av teksten, så
+sett komma eller punktum etter dem.
+
+
+Ren \TeX, som \LaTeX~er basert på, bruker \lstinline{$ $} og \lstinline{$$ $$} for henholdsvis
+inline- og display-matematikk, og dette fungerer også i \LaTeX, men kommandoene over er anbefalt.
+
+For lengre utledninger er det fint å kunne sette likninger pent under hverandre, det gjør vi
+med \lstinline$align$. Her brukes \lstinline{&} for å markere referansepunktet, og \lstinline{\\}
+for å markere linjeskift.
+
+\begin{align}
+	\dv{N}{t} &= -\frac{N}{\tau}  \label{eq:difflikning} \\
+	\frac{1}{N}\dv{N}{t} &= -\frac{1}{\tau}  \nonumber \\
+	\int \frac{1}{N} \dd{N} &= \int -\frac{1}{\tau} \dd{t} \\
+	\ln(N) &= -\frac{t}{\tau}  \nonumber \\
+	N &= e^{-t/\tau} \label{eq:svar}
+\end{align}
+
+Som med overskrifter kan du bruke \lstinline$\label{}$ og \lstinline$\ref{}$ eller 
+\lstinline$\cref{}$ for å enkelt vise til en bestemt likning.
+For eksempel er \cref{eq:svar} formelen for radioaktivt henfall.
+\lstinline$\nonumber$ fjerner nummereringen for én likning, hvis du vil fjerne nummerering 
+for alle kan du bruke \lstinline$align*$.
+
+
+
+\end{document}
