@@ -23,6 +23,8 @@
 \usepackage[table, usenames, svgnames]{xcolor} % gjør det mulig å bruke farger.
 % Liste over navngitte farger finnes i dokumentasjonen (del 4, fra side 39).
 
+\usepackage{amsmath, amsfonts} % ekstra matematikksymboler og -notasjon
+
 \usepackage{physics} % enklere kommandoer for å skrive bl.a. vektorer, deriverte,
 % matriser og notasjon ofte brukt i fysikk.
 
@@ -30,12 +32,13 @@
 
 \usepackage{graphicx} % for å legge til figurer.
 
-\usepackage{listings}
-% Denne pakken lar deg inkludere kode i dokumentet.
+\usepackage{listings} % for å inkludere kode i dokumentet.
 
 \usepackage{hyperref} % for å lage klikkbare lenker.
 
 \usepackage{cleveref} % smartere henvisninger enn den innebygde kommandoen \ref.
+
+\usepackage[defaultlines=3, all]{nowidow}
 
 
 % Innstillinger for teksten, hvis du vil ha noe annet enn standardinstillingene:
@@ -57,7 +60,7 @@
 		{å}{{\r a}}1 {Å}{{\r A}}1,
 	% Utseende
 	backgroundcolor=\color[rgb]{.9, .9, .9}, % Husk komma mellom hvert argument.
-	basicstyle=\scriptsize\ttfamily, % mindre skrift og fast bredde font
+	basicstyle=\ttfamily, % fast bredde-font
 	commentstyle=\color{SeaGreen},
 	keywordstyle=\color{Blue},
 	stringstyle=\color{MediumOrchid},
@@ -68,9 +71,6 @@
 	numberstyle=\tiny\color{Gray}, % bruk liten lysegrå skrift for linjenummer
 }
 
-\title{Introduksjon til \LaTeX} % tittel
-\author{Johannes Sørby Heines} % forfatter
-
 % Dette er slutten på preamble. Hvis du vil bruke samme preamble i flere dokumenter
 % kan du lagre den i en egen min_preamble.tex fil, og så skrive \input{min_preamble.tex}
 % før \begin{document}. Kommandoen \input{} gjør at LaTeX tolker innholdet i inputfilen
@@ -78,25 +78,28 @@
 
 \begin{document}
 
+\title{Introduksjon til \LaTeX} % tittel
+\author{Johannes Sørby Heines} % forfatter
+
 \maketitle  % Setter opp tittel, forfatter og dato.
 
 \begin{abstract} % Sammendrag som dette er nødvendig for vitenskapelige rapporter og artikler.
 	Dette dokumentet er laget for å gi en innføring i \LaTeX, med nok informasjon til å skrive
 	det som forventes av oppgavebesvarelser og rapporter i løpet av bachelorstudiet.
-	Jeg går gjennom overskrifter, henvisninger, likninger, figurer og programkode,
-	samt flere nyttige pakker for skriving i fysikk og generelt.
-	Jeg forsøker å gi en forståelse av prinsippene i \LaTeX som vil gjøre det lettere å lete
-	seg fram til mer informasjon der det trengs.
+	Jeg går gjennom innstillinger, overskrifter, tekststørrelse og -stil, henvisninger,
+	likninger, figurer, og programkode, samt flere nyttige pakker for skriving i fysikk 
+	og generelt. Jeg forsøker å gi en forståelse av prinsippene i \LaTeX som vil gjøre det 
+	lettere å lete seg fram til mer informasjon der det trengs.
 	Forslag til forbedringer mottas med takk på \url{https://github.com/johashei/LaTeXintro}.
 	Der ligger også den nyeste versjonen av dette dokumentet.
 \end{abstract}
 
 
-Åpne dette dokumentet i en tex-editor slik at du lett kan se både tex-filen og den
-genererte pdf-en.
+Dette dokumentet er ment å fungere som både forklaring og eksempelmal. Åpne dokumentet i en
+tex-editor slik at du lett kan se både tex-filen og den genererte pdf-en.
 
 \section{Dette er en overskrift.}
-Hvis du bruker \lstinline[language=tex, basicstyle=\ttfamily]$\documentclass[...]{report}$
+Hvis du bruker \lstinline$\documentclass[...]{report}$
 har du også kapitler, som kommer før overskrifter.
 
 \subsection{Dette er en underoverskrift.}
@@ -108,6 +111,77 @@ om den omstruktureres?
 
 Som du ser over kommer det ikke innrykk på første avsnitt etter en overskrift, innrykket
 kommer derimot når et avsnitt følger et annet.
+
+\section{Tekst}
+Skriftfamilien \LaTeX\ bruker som standard heter Computer Modern. Endring av skriftfamilie
+er litt avansert og kommer an på hvilket \LaTeX-program du bruker, så jeg tar ikke det med
+her. Det er derimot enkelt å endre fontstørrelse og -stil innenfor Computer Modern.
+
+\subsection{Størrelse}
+I documentclass satte jeg instillingen 12pt. Det bestemmer størrelsen kalt
+\lstinline$\normalsize$. 10pt, 11pt og 12pt er de mulige alternativene.
+I tillegg har \LaTeX\ ni andre tekststørrelser: fire mindre og fem større. Her ser du alle:
+
+\tiny tiny,
+\scriptsize scriptsize,
+\footnotesize footnotesize,
+\small small,
+\normalsize normalsize,
+\large large,
+\Large Large,
+\LARGE LARGE,
+\huge huge,
+\Huge Huge.
+
+\normalsize Når du bruker en størrelseskommando, som for eksempel \lstinline$\large$
+\large, så gjelder den for all tekst helt til \LaTeX\ får  \normalsize beskjed om noe annet.
+Det kan enten være en ny størrelseskommando, eller {\footnotesize fordi kommandoen var satt
+inni klammeparenteser} som ble lukket igjen.
+
+\subsection{Stil}
+Skriftstiler kan settes med egne kommandoer som kun virker på argumentet, og sørger for at
+mellomrom blir riktig eller den endrete teksten. De viktigste er:
+\begin{itemize}
+	\item \textbf{textbf: fet skrift (boldface)}
+	\item \textit{textit: kursiv (italic)}
+	\item \texttt{texttt: fast bredde (står for teletype)}
+	\item \textsf{textsf: sans-serif, ofte brukt for tekst ment for skjerm.}
+	\item \textsc{textsc: Kapiteler (Small Caps), nyttig for akronymer.}
+	\item \textrm{textrm: antikva (roman), standard og det vanligste for trykt tekst.}
+	\item \textnormal{textnormal: går tilbake til  normalinstillingen for dokumentet.}
+\end{itemize}
+
+For matematikk (se \cref{ov:matte}) brukes en spesialisert skrifttype. Pakken
+amsfonts gir deg følgende stiler for matematisk tekst, der mathnormal er standarden:
+\begin{itemize}
+	\item mathnormal: \(\mathnormal{ABCDEF~abcdef~012345}\)
+	\item mathrm: \(\mathrm{ABCDEF~abcdef~012345}\)
+	\item mathit: \(\mathit{ABCDEF~abcdef~012345}\)
+	\item mathbf: \(\mathbf{ABCDEF~abcdef~012345}\)
+	\item mathsf: \(\mathsf{ABCDEF~abcdef~012345}\)
+	\item mathtt: \(\mathtt{ABCDEF~abcdef~012345}\)
+	\item mathfrak: \(\mathfrak{ABCDEF~abcdef~012345}\)
+	\item mathcal: \(\mathcal{ABCDEF}\) (kun store bokstaver\footnote{
+		Det typografiske navnet på ``store'' og ``små'' bokstaver er versaler og minuskuler.
+		Slik lager du forresten en fotnote.})
+	\item mathbb: \(\mathbb{ABCDEF}\) (kun store bokstaver)
+\end{itemize}
+
+\subsection{mellomrom}
+
+Du kan legge inn et manuelt linjeskift uten å lage et \\ nytt avsnitt med \lstinline$\\$.
+Tegnet \~\ brukes for å markere et mellomrom som ikke~kan brytes av et linjeskift.
+Det brukes blandt annet mellom tall og enhet.
+Hvis du vil legge inn mellomrom med en bestemt størrelse kan du bruke kommandoen 
+\lstinline$\hspace*{}$ og \lstinline$\vspace*{}$, for henholdsvis vannrett og loddrett
+mellomrom. Merk at disse også kan være negative. \vspace*{0.5cm}
+Hvis vspace brukes i et avsnitt  kommer \hspace{1cm} ikke mellomrommet før ved neste linjeskift.
+
+For matematikk kan du også bruke kommandoene
+\lstinline$\! \, \: \; \quad$ og \lstinline$\qquad$ som gir folgende mellomrom (det første er negativt):
+\[
+	n \! nn \, n \: n \; n \quad n \qquad n
+\]
 
 \section{Nummerering}
 
@@ -134,7 +208,7 @@ innebygd i \LaTeX og gjør ikke annet enn å gi deg nummeret: \ref{ov:henvisning
 Den andre ligger i pakken cleveref og vet også hva du refererer til: \cref{ov:henvisninger}.
 
 
-\section{Matematikk}
+\section{Matematikk}\label{ov:matte}
 
 En av hovedgrunnene til å bruke \LaTeX\ er å skrive matematikk. Det finner flere måter å
 gjøre dette på, som passer til forskjellige formål.
@@ -203,7 +277,7 @@ måte som til figurer, men label og caption settes som argumenter i komandoen
 \lstinline$\lstinputlisting$, ikke med egne kommandoer. 
 Innstillingene kan settes både i dokumentet og i preamble. Se dokumentasjonen for detaljer.
 
-\lstinputlisting[language=python, caption={Et enkelt program for å trille terninger.},
-	label={lst:terning}]{terning.py}
+\lstinputlisting[language=python, basicstyle=\scriptsize, % mindre skrift for å få plass på siden
+	caption={Et enkelt program for å trille terninger.}, label={lst:terning}]{terning.py}
 
 \end{document}
